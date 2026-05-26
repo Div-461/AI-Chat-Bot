@@ -1,0 +1,242 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Chat Bot\\AiChatApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\services\\geminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:services\\geminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\services\\igeminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:services\\igeminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\models\\chatrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:models\\chatrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\models\\geminimodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:models\\geminimodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|c:\\chat bot\\aichatapi\\models\\chatresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20A5ADB6-4BCC-4CB4-A9CA-A11316F295A7}|AiChatApi.csproj|solutionrelative:models\\chatresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 16,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IGeminiService.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Services\\IGeminiService.cs",
+              "RelativeDocumentMoniker": "Services\\IGeminiService.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Services\\IGeminiService.cs",
+              "RelativeToolTip": "Services\\IGeminiService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAkwAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:18:54.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-26T07:25:58.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:19:29.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ChatController.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Controllers\\ChatController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ChatController.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Controllers\\ChatController.cs",
+              "RelativeToolTip": "Controllers\\ChatController.cs",
+              "ViewState": "AgIAABAAAACAMzMzM/MgwCUAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:17:06.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GeminiService.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Services\\GeminiService.cs",
+              "RelativeDocumentMoniker": "Services\\GeminiService.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Services\\GeminiService.cs",
+              "RelativeToolTip": "Services\\GeminiService.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAcwHIAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:04:49.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GeminiModels.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Models\\GeminiModels.cs",
+              "RelativeDocumentMoniker": "Models\\GeminiModels.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Models\\GeminiModels.cs",
+              "RelativeToolTip": "Models\\GeminiModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:00:30.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ChatResponse.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Models\\ChatResponse.cs",
+              "RelativeDocumentMoniker": "Models\\ChatResponse.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Models\\ChatResponse.cs",
+              "RelativeToolTip": "Models\\ChatResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T07:00:07.105Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ChatRequest.cs",
+              "DocumentMoniker": "C:\\Chat Bot\\AiChatApi\\Models\\ChatRequest.cs",
+              "RelativeDocumentMoniker": "Models\\ChatRequest.cs",
+              "ToolTip": "C:\\Chat Bot\\AiChatApi\\Models\\ChatRequest.cs",
+              "RelativeToolTip": "Models\\ChatRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T06:50:31.948Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b38c6cbc-524d-4f30-8a18-936e3104b734}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

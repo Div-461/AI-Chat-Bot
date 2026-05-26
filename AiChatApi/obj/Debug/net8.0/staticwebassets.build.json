@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "c086sJyV6Az20ablJBONfPMCFdwocfDmhPkxl8fiwzA=",
+  "Source": "AiChatApi",
+  "BasePath": "_content/AiChatApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
