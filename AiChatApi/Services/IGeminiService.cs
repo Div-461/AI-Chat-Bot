@@ -7,6 +7,7 @@ namespace AiChatApi.Services
         Task<string> SendMessageAsync(
             string message,
             List<ChatHistoryItem> history,
+            List<AttachmentItem> attachments,
             CancellationToken cancellationToken = default
         );
     }

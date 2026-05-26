@@ -80,6 +80,24 @@
   },
   "components": {
     "schemas": {
+      "AttachmentItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "mimeType": {
+            "type": "string",
+            "nullable": true
+          },
+          "base64": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ChatHistoryItem": {
         "type": "object",
         "properties": {
@@ -105,6 +123,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ChatHistoryItem"
+            },
+            "nullable": true
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentItem"
             },
             "nullable": true
           }

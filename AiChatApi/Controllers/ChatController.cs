@@ -38,6 +38,7 @@ namespace AiChatApi.Controllers
                 var reply = await _geminiService.SendMessageAsync(
                     request.Message,
                     request.History,
+                    request.Attachments,
                     cancellationToken
                 );
 
