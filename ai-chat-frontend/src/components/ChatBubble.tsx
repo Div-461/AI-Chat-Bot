@@ -96,8 +96,8 @@ export default function ChatBubble({ message }: Props) {
         className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold"
         style={
           isUser
-            ? { background: "#f0ede9", color: "#6f6760" }
-            : { background: "#17172f", color: "#ffffff", boxShadow: "0 8px 16px rgba(23,23,47,0.18)" }
+            ? { background: "#f0ede9", color: "#6f6760",borderRadius:4 }
+            : { background: "#17172f", color: "#ffffff", boxShadow: "0 8px 16px rgba(23,23,47,0.18)",borderRadius:4 }
         }
       >
         {isUser ? "U" : "✦"}
@@ -111,8 +111,8 @@ export default function ChatBubble({ message }: Props) {
         )}
         style={
           isUser
-            ? { background: "#17172f", color: "#ffffff", borderRadius: "16px 16px 4px 16px", border: "1px solid #17172f" }
-            : { background: "#f8f7f5", color: "#28243d", borderRadius: "16px 16px 16px 4px", border: "1px solid #e6e1da", boxShadow: "0 8px 18px rgba(32,26,20,0.05)" }
+            ? { background: "#17172f", color: "#ffffff" }
+            : { background: "#f8f7f5", color: "#28243d", border: "1px solid #e6e1da", boxShadow: "0 8px 18px rgba(32,26,20,0.05)" }
         }
       >
         {/* Attachment badges — only on user messages */}

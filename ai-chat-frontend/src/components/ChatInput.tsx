@@ -141,8 +141,8 @@ export default function ChatInput({
               width:      34,
               height:     34,
               marginBottom: 4,
-              background: canAttach ? "transparent" : "transparent",
-              color:      canAttach ? "#6f6760" : "#c4bfba",
+              //background: canAttach ? "transparent" : "transparent",
+              //color:      canAttach ? "#6f6760" : "#c4bfba",
               cursor:     canAttach ? "pointer" : "not-allowed",
               border:     "1px solid transparent",
             }}
@@ -202,7 +202,7 @@ export default function ChatInput({
               marginBottom: 2,
               background:   "#17172f",
               color:        "#ffffff",
-              border:       "none",
+              borderRadius:   4,
               cursor:       canSend ? "pointer" : "not-allowed",
               opacity:      canSend ? 1 : 0.4,
               boxShadow:    canSend
@@ -240,7 +240,7 @@ export default function ChatInput({
         send
         <kbd style={{ background: "#f8f7f5", marginLeft:10,
           border: "1px solid #e1dbd4", borderRadius: 4, padding: "1px 7px", fontSize: 10, color: "#9b958f" }}>
-          Shift+Enter
+          Shift + Enter
         </kbd>{" "}
         new line
       </p>

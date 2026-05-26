@@ -23,15 +23,16 @@ export default function App() {
           height:    "min(764px, calc(100vh - 64px))",
           minHeight: 620,
           background:   "#ffffff",
-          borderRadius: 4,
+          //borderRadius: 4,
           boxShadow:    "0 22px 54px rgba(33,28,22,0.14)",
-          marginTop:    20,
+          marginTop:    25,
+          border:"1px solid #00000045"
         }}
       >
         {/* Header */}
         <header
           className="px-6 py-5 shrink-0"
-          style={{background: "#ffffff" }}
+          style={{background: "#ffffff",marginTop:5 }}
         >
           <div className="flex items-center" style={{gap:20}}>
             <div
