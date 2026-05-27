@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { MessageCircle } from "lucide-react";
 import type { Message } from "../types/chat";
 import ChatBubble from "./ChatBubble";
@@ -13,16 +13,30 @@ interface Props {
 export default function ChatWindow({ messages, isPending }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const shouldStickToBottomRef = useRef(true);
 
-  useEffect(() => {
+  const handleScroll = useCallback(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
-    scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: "smooth" });
+
+    const distanceFromBottom =
+      scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
+    shouldStickToBottomRef.current = distanceFromBottom < 96;
+  }, []);
+
+  useEffect(() => {
+    if (!shouldStickToBottomRef.current) return;
+
+    bottomRef.current?.scrollIntoView({
+      block: "end",
+      behavior: isPending ? "auto" : "smooth",
+    });
   }, [messages, isPending]);
 
   return (
     <div
       ref={scrollRef}
+      onScroll={handleScroll}
       className="chat-window flex-1 min-h-0 overflow-y-auto px-6 py-7"
     >
       {messages.length === 0 && (

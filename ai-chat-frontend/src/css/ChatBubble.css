@@ -12,6 +12,8 @@
 
 .chat-bubble-row {
   animation: bubbleIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  content-visibility: auto;
+  contain-intrinsic-size: 90px;
 }
 
 .chat-bubble-attachment {

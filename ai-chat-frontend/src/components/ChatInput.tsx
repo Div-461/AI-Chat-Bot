@@ -84,7 +84,10 @@ export default function ChatInput({
     }
 
     if (valid.length > 0) {
-      const converted = await Promise.all(valid.map(fileToAttachment));
+      const converted: Attachment[] = [];
+      for (const file of valid) {
+        converted.push(await fileToAttachment(file));
+      }
       onAddAttachments(converted);
     }
 

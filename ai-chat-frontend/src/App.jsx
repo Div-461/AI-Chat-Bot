@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useChat } from "./hooks/useChat";
 import { useChatSessions } from "./hooks/useChatSessions";
 import { useAuth } from "./components/AuthContext";
@@ -31,20 +32,20 @@ export default function App() {
   const { sessions, loading, refreshSessions, removeSession } =
     useChatSessions(sessionId, userId);
 
-  const handleSelectSession = async (id) => {
+  const handleSelectSession = useCallback(async (id) => {
     if (id === sessionId) return; // already open
     await loadSession(id);
-  };
+  }, [loadSession, sessionId]);
 
-  const handleNewChat = () => {
+  const handleNewChat = useCallback(() => {
     startNewChat();
-  };
+  }, [startNewChat]);
 
-  const handleDeleteSession = async (id) => {
+  const handleDeleteSession = useCallback(async (id) => {
     await removeSession(id);
     // If we deleted the active session, start a fresh one
     if (id === sessionId) startNewChat();
-  };
+  }, [removeSession, sessionId, startNewChat]);
 
   return (
     <div className="min-h-screen flex items-center justify-center gap-4 py-8 px-4">

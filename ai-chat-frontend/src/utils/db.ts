@@ -1,13 +1,14 @@
 // ── Database schema ────────────────────────────────────────────
 // DB name:    AiChatDB
-// Version:    1
+// Version:    3
 // Stores:
 //   sessions  → { id, title, preview, createdAt, updatedAt }
 //   messages  → { id, sessionId, role, content, timestamp }
 //              index on sessionId for fast per-session queries
 
 const DB_NAME    = "AiChatDB";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
+let dbPromise: Promise<IDBDatabase> | null = null;
 
 export interface SessionRecord {
   id:        string;
@@ -28,24 +29,24 @@ export interface MessageRecord {
 
 // ── Open (or create) the database ─────────────────────────────
 function openDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
+  if (dbPromise) return dbPromise;
+
+  dbPromise = new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
 
-    // Runs only on first open or version upgrade
     req.onupgradeneeded = (e) => {
       const db = (e.target as IDBOpenDBRequest).result;
 
-      // Sessions store
       if (!db.objectStoreNames.contains("sessions")) {
         const sessionStore = db.createObjectStore("sessions", { keyPath: "id" });
-        sessionStore.createIndex("updatedAt", "updatedAt"); // for sorting
+        sessionStore.createIndex("updatedAt", "updatedAt");
         sessionStore.createIndex("userId", "userId");
+        sessionStore.createIndex("userUpdatedAt", ["userId", "updatedAt"]);
       }
 
-      // Messages store
       if (!db.objectStoreNames.contains("messages")) {
         const messageStore = db.createObjectStore("messages", { keyPath: "id" });
-        messageStore.createIndex("sessionId", "sessionId"); // for filtering
+        messageStore.createIndex("sessionId", "sessionId");
       }
 
       if (db.objectStoreNames.contains("sessions")) {
@@ -54,12 +55,27 @@ function openDB(): Promise<IDBDatabase> {
         if (!store.indexNames.contains("userId")) {
           store.createIndex("userId", "userId");
         }
+        if (!store.indexNames.contains("userUpdatedAt")) {
+          store.createIndex("userUpdatedAt", ["userId", "updatedAt"]);
+        }
       }
     };
 
-    req.onsuccess = (e) => resolve((e.target as IDBOpenDBRequest).result);
-    req.onerror   = (e) => reject((e.target as IDBOpenDBRequest).error);
+    req.onsuccess = (e) => {
+      const db = (e.target as IDBOpenDBRequest).result;
+      db.onversionchange = () => {
+        db.close();
+        dbPromise = null;
+      };
+      resolve(db);
+    };
+    req.onerror = (e) => {
+      dbPromise = null;
+      reject((e.target as IDBOpenDBRequest).error);
+    };
   });
+
+  return dbPromise;
 }
 
 // ── Generic helpers ────────────────────────────────────────────
@@ -126,13 +142,11 @@ export async function getAllSessions(userId: string): Promise<SessionRecord[]> {
   const db      = await openDB();
   const tx      = db.transaction("sessions", "readonly");
   const store   = tx.objectStore("sessions");
-  const index   = store.index("updatedAt");
-  const req     = index.getAll(IDBKeyRange.lowerBound(0));
+  const index   = store.index("userUpdatedAt");
+  const req     = index.getAll(IDBKeyRange.bound([userId, 0], [userId, Infinity]));
   const results = await promisifyRequest<SessionRecord[]>(req);
 
-  return results
-    .filter((s) => s.userId === userId)   // ← only this user's sessions
-    .sort((a, b) => b.updatedAt - a.updatedAt);
+  return results.sort((a, b) => b.updatedAt - a.updatedAt);
 }
 
 // Delete a session and all its messages

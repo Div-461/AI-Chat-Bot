@@ -5,7 +5,6 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import type { GoogleUser } from "../types/auth";
 
@@ -56,7 +55,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
-    googleLogout();
+    import("@react-oauth/google")
+      .then(({ googleLogout }) => googleLogout())
+      .catch(() => undefined);
     setUser(null);
     sessionStorage.removeItem("google_user");
   }, []);

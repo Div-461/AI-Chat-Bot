@@ -1,16 +1,17 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { lazy, memo, Suspense, useMemo, useState } from "react";
 import { Check, Copy, FileText, Image, File } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 import type { Message } from "../types/chat";
 import { getFileLabel } from "../utils/fileUtils";
 import "../css/ChatBubble.css";
+
+const ReactMarkdown = lazy(() => import("react-markdown"));
 
 interface Props {
   message: Message;
 }
 
-function AttachmentBadge({ name, mimeType }: { name: string; mimeType: string }) {
+const AttachmentBadge = memo(function AttachmentBadge({ name, mimeType }: { name: string; mimeType: string }) {
   const isImage = mimeType.startsWith("image/");
   const isPdf   = mimeType === "application/pdf";
 
@@ -30,20 +31,30 @@ function AttachmentBadge({ name, mimeType }: { name: string; mimeType: string })
       </span>
     </div>
   );
-}
+});
 
-export default function ChatBubble({ message }: Props) {
+const MarkdownContent = memo(function MarkdownContent({ content }: { content: string }) {
+  return (
+    <Suspense fallback={<span className="whitespace-pre-wrap">{content}</span>}>
+      <ReactMarkdown>{content}</ReactMarkdown>
+    </Suspense>
+  );
+});
+
+function ChatBubble({ message }: Props) {
   const isUser = message.role === "user";
   const [copied, setCopied] = useState(false);
 
-  const getCopyText = (content: string) =>
-    content
+  const copyText = useMemo(
+    () => message.content
       .replace(/\*\*(.*?)\*\*/g, "$1")
-      .replace(/__(.*?)__/g, "$1");
+      .replace(/__(.*?)__/g, "$1"),
+    [message.content]
+  );
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(getCopyText(message.content));
+      await navigator.clipboard.writeText(copyText);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1200);
     } catch {
@@ -91,7 +102,7 @@ export default function ChatBubble({ message }: Props) {
         {message.content && (
           isUser
             ? message.content
-            : <ReactMarkdown>{message.content}</ReactMarkdown>
+            : <MarkdownContent content={message.content} />
         )}
 
         {/* Copy button */}
@@ -111,3 +122,5 @@ export default function ChatBubble({ message }: Props) {
     </div>
   );
 }
+
+export default memo(ChatBubble);

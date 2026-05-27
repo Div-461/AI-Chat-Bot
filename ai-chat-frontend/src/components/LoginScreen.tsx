@@ -1,4 +1,4 @@
-import GoogleSignInButton from "./GoogleSignInButton";
+import GoogleSignIn from "./GoogleSignIn";
 import "../css/LoginScreen.css";
 
 export default function LoginScreen() {
@@ -25,7 +25,7 @@ export default function LoginScreen() {
           </p>
         </div>
 
-        <GoogleSignInButton className="login-google-button flex items-center justify-center" />
+        <GoogleSignIn className="login-google-button flex items-center justify-center" />
 
         <p className="login-note">
           Your data stays in your browser.

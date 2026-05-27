@@ -4,7 +4,7 @@ export interface Attachment {
   id: string;
   name: string;
   mimeType: string;
-  base64: string;
+  file?: File;
   size: number;
 }
 

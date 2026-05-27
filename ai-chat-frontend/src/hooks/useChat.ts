@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { sendMessage } from "../api/chatApi";
 import type { Attachment, Message } from "../types/chat";
+import { fileToBase64 } from "../utils/fileUtils";
 import {
   createSession,
   saveMessage,
@@ -10,6 +10,27 @@ import {
 } from "../utils/db";
 
 const newId = () => crypto.randomUUID();
+const MAX_HISTORY_MESSAGES = 20;
+
+function toMessageAttachment({ id, name, mimeType, size }: Attachment): Attachment {
+  return { id, name, mimeType, size };
+}
+
+async function serializeAttachments(attachments: Attachment[]) {
+  const serialized = [];
+
+  for (const attachment of attachments) {
+    if (!attachment.file) continue;
+
+    serialized.push({
+      name: attachment.name,
+      mimeType: attachment.mimeType,
+      base64: await fileToBase64(attachment.file),
+    });
+  }
+
+  return serialized;
+}
 
 
 export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => void;
@@ -18,6 +39,8 @@ export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => v
   const [messages, setMessages]       = useState<Message[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setSessionId(null);
@@ -50,48 +73,21 @@ export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => v
     setAttachments([]);
   }, []);
 
-  // ── Mutation ─────────────────────────────────────────────────
-  const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: sendMessage,
-    onSuccess: async (data, variables) => {
-      const assistantMsg: Message = {
-        id:        newId(),
-        role:      "assistant",
-        content:   data.reply,
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, assistantMsg]);
-
-      // Persist assistant message to IndexedDB
-      if (variables.sessionId) {
-        await saveMessage({
-          id:        assistantMsg.id,
-          sessionId: variables.sessionId,
-          role:      "assistant",
-          content:   assistantMsg.content,
-          timestamp: assistantMsg.timestamp.getTime(),
-        });
-
-        // Update session preview with the AI reply
-        await updateSession(variables.sessionId, data.reply);
-
-        // Refresh sidebar
-        onSessionCreated?.();
-      }
-    },
-  });
-
   // ── Send a message ────────────────────────────────────────────
   const sendUserMessage = useCallback(
     async (content: string) => {
-      if (!content.trim() && attachments.length === 0) return;
+      if ((!content.trim() && attachments.length === 0) || isPending) return;
       // Create a new session on the very first message
       let activeSessionId = sessionId;
+      const trimmedContent = content.trim();
+      const pendingAttachments = attachments;
+      const history = messages
+        .slice(-MAX_HISTORY_MESSAGES)
+        .map(({ role, content }) => ({ role, content }));
 
       if (userId && !activeSessionId) {
         activeSessionId = newId();
-        await createSession(activeSessionId, content.trim(),userId);
+        await createSession(activeSessionId, trimmedContent || "Attachment", userId);
         setSessionId(activeSessionId);
         onSessionCreated?.(); // refresh sidebar immediately
       }
@@ -99,12 +95,17 @@ export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => v
       const userMsg: Message = {
         id:          newId(),
         role:        "user",
-        content:     content.trim(),
+        content:     trimmedContent,
         timestamp:   new Date(),
-        attachments: attachments.length > 0 ? [...attachments] : undefined,
+        attachments: pendingAttachments.length > 0
+          ? pendingAttachments.map(toMessageAttachment)
+          : undefined,
       };
 
       setMessages((prev) => [...prev, userMsg]);
+      setAttachments([]);
+      setError(null);
+      setIsPending(true);
 
       // Persist user message to IndexedDB
       if (activeSessionId) {
@@ -117,20 +118,45 @@ export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => v
         });
       }
 
-      mutate({
-        message:     content.trim(),
-        history:     messages.map(({ role, content }) => ({ role, content })),
-        attachments: attachments.map(({ name, mimeType, base64 }) => ({
-          name,
-          mimeType,
-          base64,
-        })),
-        sessionId: activeSessionId ?? undefined,
-      });
+      try {
+        const serializedAttachments = await serializeAttachments(pendingAttachments);
+        const data = await sendMessage({
+          message: trimmedContent,
+          history,
+          attachments: serializedAttachments.length > 0
+            ? serializedAttachments
+            : undefined,
+          sessionId: activeSessionId ?? undefined,
+        });
 
-      setAttachments([]);
+        const assistantMsg: Message = {
+          id:        newId(),
+          role:      "assistant",
+          content:   data.reply,
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, assistantMsg]);
+
+        if (activeSessionId) {
+          await saveMessage({
+            id:        assistantMsg.id,
+            sessionId: activeSessionId,
+            role:      "assistant",
+            content:   assistantMsg.content,
+            timestamp: assistantMsg.timestamp.getTime(),
+          });
+
+          await updateSession(activeSessionId, data.reply);
+          onSessionCreated?.();
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error("Something went wrong."));
+      } finally {
+        setIsPending(false);
+      }
     },
-    [sessionId, messages, attachments, mutate, onSessionCreated,userId]
+    [sessionId, messages, attachments, isPending, onSessionCreated, userId]
   );
 
   // ── Attachment helpers (unchanged) ───────────────────────────
@@ -147,7 +173,7 @@ export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => v
     messages,
     sendUserMessage,
     isPending,
-    isError,
+    isError: Boolean(error),
     error,
     attachments,
     addAttachments,

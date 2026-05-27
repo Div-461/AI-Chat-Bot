@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { lazy, memo, Suspense, useCallback, useState, type MouseEvent } from "react";
 import { ChevronLeft, ChevronRight, History, MessageSquareText, Plus, Trash2, LogOut } from "lucide-react";
 import { useAuth } from "./AuthContext";
-import GoogleSignInButton from "./GoogleSignInButton";
 import clsx from "clsx";
 import type { SessionRecord } from "../utils/db";
 import "../css/ChatHistory.css";
+
+const GoogleSignIn = lazy(() => import("./GoogleSignIn"));
 
 interface Props {
   sessions:        SessionRecord[];
@@ -32,6 +33,79 @@ function formatTime(ts: number): string {
   });
 }
 
+interface SessionRowProps {
+  item: SessionRecord;
+  isActive: boolean;
+  confirmDelete: boolean;
+  onSelect: (id: string) => void;
+  onDeleteClick: (e: MouseEvent, id: string) => void;
+  onConfirmDelete: (e: MouseEvent, id: string) => void;
+  onCancelDelete: (e: MouseEvent) => void;
+}
+
+const SessionRow = memo(function SessionRow({
+  item,
+  isActive,
+  confirmDelete,
+  onSelect,
+  onDeleteClick,
+  onConfirmDelete,
+  onCancelDelete,
+}: SessionRowProps) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(item.id)}
+      className={clsx(
+        "chat-history-item mb-2 flex w-full items-start text-left transition-colors",
+        isActive && "chat-history-item-active"
+      )}
+    >
+      <span className="chat-history-item-icon flex shrink-0 items-center justify-center">
+        <MessageSquareText size={16} />
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="chat-history-item-title block truncate">{item.title}</span>
+        <span className="chat-history-item-preview mt-1 block truncate">{item.preview}</span>
+        <span className="chat-history-item-time mt-2 block">{formatTime(item.updatedAt)}</span>
+      </span>
+
+      {!confirmDelete && (
+        <span
+          role="button"
+          onClick={(e) => onDeleteClick(e, item.id)}
+          className="chat-history-delete flex items-center justify-center ml-1 shrink-0"
+          title="Delete conversation"
+        >
+          <Trash2 size={13} />
+        </span>
+      )}
+
+      {confirmDelete && (
+        <span className="flex gap-1 ml-1 shrink-0 items-center">
+          <span
+            role="button"
+            onClick={(e) => onConfirmDelete(e, item.id)}
+            className="chat-history-confirm-delete text-xs px-1.5 py-0.5 rounded"
+            title="Confirm delete"
+          >
+            Delete
+          </span>
+          <span
+            role="button"
+            onClick={onCancelDelete}
+            className="chat-history-cancel-delete text-xs px-1.5 py-0.5 rounded"
+            title="Cancel"
+          >
+            Cancel
+          </span>
+        </span>
+      )}
+    </button>
+  );
+});
+
 export default function ChatHistory({
   sessions,
   loading,
@@ -42,24 +116,23 @@ export default function ChatHistory({
 }: Props) {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen]               = useState(true);
-  const [hoveredId, setHoveredId]         = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
-  const handleDelete = (e: React.MouseEvent, id: string) => {
+  const handleDelete = useCallback((e: MouseEvent, id: string) => {
     e.stopPropagation();
     setConfirmDelete(id);
-  };
+  }, []);
 
-  const confirmDeletion = (e: React.MouseEvent, id: string) => {
+  const confirmDeletion = useCallback((e: MouseEvent, id: string) => {
     e.stopPropagation();
     onDelete(id);
     setConfirmDelete(null);
-  };
+  }, [onDelete]);
 
-  const cancelDelete = (e: React.MouseEvent) => {
+  const cancelDelete = useCallback((e: MouseEvent) => {
     e.stopPropagation();
     setConfirmDelete(null);
-  };
+  }, []);
 
   return (
     <aside
@@ -128,59 +201,16 @@ export default function ChatHistory({
             )}
 
             {sessions.map((item) => (
-              <button
+              <SessionRow
                 key={item.id}
-                type="button"
-                onClick={() => onSelect(item.id)}
-                onMouseEnter={() => setHoveredId(item.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className={clsx(
-                  "chat-history-item mb-2 flex w-full items-start text-left transition-colors",
-                  activeSessionId === item.id && "chat-history-item-active"
-                )}
-              >
-                <span className="chat-history-item-icon flex shrink-0 items-center justify-center">
-                  <MessageSquareText size={16} />
-                </span>
-
-                <span className="min-w-0 flex-1">
-                  <span className="chat-history-item-title block truncate">{item.title}</span>
-                  <span className="chat-history-item-preview mt-1 block truncate">{item.preview}</span>
-                  <span className="chat-history-item-time mt-2 block">{formatTime(item.updatedAt)}</span>
-                </span>
-
-                {hoveredId === item.id && confirmDelete !== item.id && (
-                  <span
-                    role="button"
-                    onClick={(e) => handleDelete(e, item.id)}
-                    className="chat-history-delete flex items-center justify-center ml-1 shrink-0"
-                    title="Delete conversation"
-                  >
-                    <Trash2 size={13} />
-                  </span>
-                )}
-
-                {confirmDelete === item.id && (
-                  <span className="flex gap-1 ml-1 shrink-0 items-center">
-                    <span
-                      role="button"
-                      onClick={(e) => confirmDeletion(e, item.id)}
-                      className="chat-history-confirm-delete text-xs px-1.5 py-0.5 rounded"
-                      title="Confirm delete"
-                    >
-                      Delete
-                    </span>
-                    <span
-                      role="button"
-                      onClick={cancelDelete}
-                      className="chat-history-cancel-delete text-xs px-1.5 py-0.5 rounded"
-                      title="Cancel"
-                    >
-                      Cancel
-                    </span>
-                  </span>
-                )}
-              </button>
+                item={item}
+                isActive={activeSessionId === item.id}
+                confirmDelete={confirmDelete === item.id}
+                onSelect={onSelect}
+                onDeleteClick={handleDelete}
+                onConfirmDelete={confirmDeletion}
+                onCancelDelete={cancelDelete}
+              />
             ))}
           </div>
         )}
@@ -213,7 +243,9 @@ export default function ChatHistory({
               </div>
             ) : (
               <div className="chat-history-google-login">
-                <GoogleSignInButton className="chat-history-google-button flex w-full items-center justify-center transition-colors" />
+                <Suspense fallback={null}>
+                  <GoogleSignIn className="chat-history-google-button flex w-full items-center justify-center transition-colors" />
+                </Suspense>
               </div>
             )}
           </div>

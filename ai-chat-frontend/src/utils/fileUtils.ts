@@ -40,12 +40,11 @@ export function fileToBase64(file: File): Promise<string> {
 
 // Converts a browser File to our Attachment type
 export async function fileToAttachment(file: File): Promise<Attachment> {
-  const base64 = await fileToBase64(file);
   return {
     id:       crypto.randomUUID(),
     name:     file.name,
     mimeType: file.type,
-    base64,
+    file,
     size:     file.size,
   };
 }
