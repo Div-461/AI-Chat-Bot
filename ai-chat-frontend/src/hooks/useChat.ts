@@ -1,48 +1,102 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { sendMessage } from "../api/chatApi";
 import type { Attachment, Message } from "../types/chat";
+import {
+  createSession,
+  saveMessage,
+  getMessages,
+  updateSession,
+} from "../utils/db";
 
 const newId = () => crypto.randomUUID();
 
-export function useChat() {
+
+export function useChat({ onSessionCreated,userId }: {onSessionCreated?: () => void;
+  userId: string | null; }) {
+  const [sessionId, setSessionId]     = useState<string | null>(null);
   const [messages, setMessages]       = useState<Message[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [isLoadingSession, setIsLoadingSession] = useState(false);
 
+  useEffect(() => {
+    setSessionId(null);
+    setMessages([]);
+    setAttachments([]);
+  }, [userId]);
+
+  // ── Load an existing session from IndexedDB ──────────────────
+  const loadSession = useCallback(async (id: string) => {
+    setIsLoadingSession(true);
+    setMessages([]);
+
+    const stored = await getMessages(id);
+    const loaded: Message[] = stored.map((m) => ({
+      id:        m.id,
+      role:      m.role,
+      content:   m.content,
+      timestamp: new Date(m.timestamp),
+    }));
+
+    setSessionId(id);
+    setMessages(loaded);
+    setIsLoadingSession(false);
+  }, []);
+
+  // ── Start a brand new empty chat ─────────────────────────────
+  const startNewChat = useCallback(() => {
+    setSessionId(null);
+    setMessages([]);
+    setAttachments([]);
+  }, []);
+
+  // ── Mutation ─────────────────────────────────────────────────
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: sendMessage,
-    onSuccess: (data) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id:        newId(),
+    onSuccess: async (data, variables) => {
+      const assistantMsg: Message = {
+        id:        newId(),
+        role:      "assistant",
+        content:   data.reply,
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, assistantMsg]);
+
+      // Persist assistant message to IndexedDB
+      if (variables.sessionId) {
+        await saveMessage({
+          id:        assistantMsg.id,
+          sessionId: variables.sessionId,
           role:      "assistant",
-          content:   data.reply,
-          timestamp: new Date(),
-        },
-      ]);
+          content:   assistantMsg.content,
+          timestamp: assistantMsg.timestamp.getTime(),
+        });
+
+        // Update session preview with the AI reply
+        await updateSession(variables.sessionId, data.reply);
+
+        // Refresh sidebar
+        onSessionCreated?.();
+      }
     },
   });
 
-  // Called by ChatInput when the user picks files
-  const addAttachments = useCallback((incoming: Attachment[]) => {
-    setAttachments((prev) => {
-      const combined = [...prev, ...incoming];
-      return combined.slice(0, 5); // hard cap at 5
-    });
-  }, []);
-
-  const removeAttachment = useCallback((id: string) => {
-    setAttachments((prev) => prev.filter((a) => a.id !== id));
-  }, []);
-
-  const clearAttachments = useCallback(() => setAttachments([]), []);
-
+  // ── Send a message ────────────────────────────────────────────
   const sendUserMessage = useCallback(
-    (content: string) => {
+    async (content: string) => {
       if (!content.trim() && attachments.length === 0) return;
+      // Create a new session on the very first message
+      let activeSessionId = sessionId;
 
-      const userMessage: Message = {
+      if (userId && !activeSessionId) {
+        activeSessionId = newId();
+        await createSession(activeSessionId, content.trim(),userId);
+        setSessionId(activeSessionId);
+        onSessionCreated?.(); // refresh sidebar immediately
+      }
+
+      const userMsg: Message = {
         id:          newId(),
         role:        "user",
         content:     content.trim(),
@@ -50,7 +104,18 @@ export function useChat() {
         attachments: attachments.length > 0 ? [...attachments] : undefined,
       };
 
-      setMessages((prev) => [...prev, userMessage]);
+      setMessages((prev) => [...prev, userMsg]);
+
+      // Persist user message to IndexedDB
+      if (activeSessionId) {
+        await saveMessage({
+          id:        userMsg.id,
+          sessionId: activeSessionId,
+          role:      "user",
+          content:   userMsg.content,
+          timestamp: userMsg.timestamp.getTime(),
+        });
+      }
 
       mutate({
         message:     content.trim(),
@@ -60,15 +125,25 @@ export function useChat() {
           mimeType,
           base64,
         })),
+        sessionId: activeSessionId ?? undefined,
       });
 
-      // Clear attachments after sending
-      clearAttachments();
+      setAttachments([]);
     },
-    [messages, attachments, mutate, clearAttachments]
+    [sessionId, messages, attachments, mutate, onSessionCreated,userId]
   );
 
+  // ── Attachment helpers (unchanged) ───────────────────────────
+  const addAttachments = useCallback((incoming: Attachment[]) => {
+    setAttachments((prev) => [...prev, ...incoming].slice(0, 5));
+  }, []);
+
+  const removeAttachment = useCallback((id: string) => {
+    setAttachments((prev) => prev.filter((a) => a.id !== id));
+  }, []);
+
   return {
+    sessionId,
     messages,
     sendUserMessage,
     isPending,
@@ -77,5 +152,8 @@ export function useChat() {
     attachments,
     addAttachments,
     removeAttachment,
+    loadSession,
+    startNewChat,
+    isLoadingSession,
   };
 }

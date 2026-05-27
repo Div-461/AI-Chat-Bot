@@ -14,12 +14,15 @@ C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Http.Polly.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Polly.dll
+C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Polly.Extensions.Http.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -48,6 +51,3 @@ C:\Chat Bot\AiChatApi\obj\Debug\net8.0\refint\AiChatApi.dll
 C:\Chat Bot\AiChatApi\obj\Debug\net8.0\AiChatApi.pdb
 C:\Chat Bot\AiChatApi\obj\Debug\net8.0\AiChatApi.genruntimeconfig.cache
 C:\Chat Bot\AiChatApi\obj\Debug\net8.0\ref\AiChatApi.dll
-C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Microsoft.Extensions.Http.Polly.dll
-C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Polly.dll
-C:\Chat Bot\AiChatApi\bin\Debug\net8.0\Polly.Extensions.Http.dll

@@ -1,0 +1,24 @@
+.attachment-preview-pill {
+  background: #f0ede9;
+  border: 1px solid #e0dbd4;
+  color: #3d3830;
+  max-width: 200px;
+}
+
+.attachment-preview-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attachment-preview-size {
+  color: #9c9690;
+  flex-shrink: 0;
+}
+
+.attachment-preview-remove {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}

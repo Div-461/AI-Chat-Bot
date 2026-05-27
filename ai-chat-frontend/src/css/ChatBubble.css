@@ -1,0 +1,153 @@
+@keyframes bubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chat-bubble-row {
+  animation: bubbleIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chat-bubble-attachment {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: inherit;
+  max-width: 180px;
+}
+
+.chat-bubble-attachment-name {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-bubble-attachment-label {
+  opacity: 0.65;
+  flex-shrink: 0;
+}
+
+.chat-bubble-avatar {
+  border-radius: 4px;
+}
+
+.chat-bubble-avatar-user {
+  background: #f0ede9;
+  color: #6f6760;
+}
+
+.chat-bubble-avatar-assistant {
+  background: #17172f;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(23, 23, 47, 0.18);
+}
+
+.chat-bubble-user {
+  background: #17172f;
+  color: #ffffff;
+}
+
+.chat-bubble-assistant {
+  background: #f8f7f5;
+  color: #28243d;
+  border: 1px solid #e6e1da;
+  box-shadow: 0 8px 18px rgba(32, 26, 20, 0.05);
+}
+
+.chat-bubble-copy-user {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.chat-bubble-copy-assistant {
+  background: #ffffff;
+  color: #17172f;
+  border: 1px solid #e6e1da;
+  box-shadow: 0 4px 10px rgba(32, 26, 20, 0.06);
+}
+
+.md-content p {
+  margin: 0 0 8px;
+}
+
+.md-content p:last-child {
+  margin-bottom: 0;
+}
+
+.md-content strong {
+  font-weight: 600;
+}
+
+.md-content em {
+  font-style: italic;
+}
+
+.md-content ul,
+.md-content ol {
+  margin: 6px 0 8px 16px;
+  padding: 0;
+}
+
+.md-content li {
+  margin-bottom: 3px;
+}
+
+.md-content code {
+  font-family: monospace;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.md-content pre {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 10px 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.md-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.md-content h1,
+.md-content h2,
+.md-content h3 {
+  font-weight: 600;
+  margin: 10px 0 4px;
+}
+
+.md-content h1 {
+  font-size: 15px;
+}
+
+.md-content h2 {
+  font-size: 14px;
+}
+
+.md-content h3 {
+  font-size: 13px;
+}
+
+.md-content a {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.md-content blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.15);
+  margin: 6px 0;
+  padding-left: 10px;
+  opacity: 0.8;
+}

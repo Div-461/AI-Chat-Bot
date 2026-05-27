@@ -27,6 +27,7 @@ export interface SendMessageRequest{
     mimeType: string;
     base64: string;
     }[];
+    sessionId?:  string;
 }
 
 export interface SendMessageResponse{

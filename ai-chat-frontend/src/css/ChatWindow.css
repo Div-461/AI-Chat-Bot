@@ -1,0 +1,53 @@
+.chat-window {
+  height: 100%;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #dad4cc transparent;
+}
+
+.chat-window-empty {
+  animation: fadeUp 0.5s ease;
+}
+
+.chat-window-empty-icon {
+  background: #f5f3f0;
+  border: 1px solid #e7e2dc;
+  box-shadow: 0 10px 22px rgba(32, 26, 20, 0.06);
+  animation: float 3s ease-in-out infinite;
+}
+
+.chat-window-empty-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #070826;
+  margin-bottom: 10px;
+}
+
+.chat-window-empty-copy {
+  font-size: 15px;
+  max-width: 290px;
+  line-height: 1.45;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}

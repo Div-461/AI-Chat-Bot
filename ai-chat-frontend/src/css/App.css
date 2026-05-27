@@ -1,0 +1,57 @@
+.app-shell {
+  width: min(1000px, calc(100vw - 32px));
+  height: min(764px, calc(100vh - 64px));
+  min-height: 620px;
+  background: #ffffff;
+  /* box-shadow: 0 22px 54px rgba(33, 28, 22, 0.14); */
+  margin-top: 25px;
+  border: 1px solid #00000045;
+}
+
+.app-header {
+  background: #ffffff;
+  margin-top: 5px;
+}
+
+.app-title-row {
+  gap: 20px;
+}
+
+.app-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background: #17172f;
+}
+
+.app-logo-mark {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.app-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #070826;
+  line-height: 1.15;
+}
+
+.app-subtitle {
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.app-error {
+  color: #b42318;
+  background: #fff4f2;
+}
+
+.app-loading-message {
+  font-size: 14px;
+  color: #9c9690;
+}
+
+.app-input-area {
+  background: #ffffff;
+}

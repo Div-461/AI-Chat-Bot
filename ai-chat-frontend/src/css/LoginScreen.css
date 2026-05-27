@@ -1,0 +1,64 @@
+.login-screen {
+  background: #f4f2ef;
+}
+
+.login-card {
+  width: 360px;
+  background: #ffffff;
+  border: 1px solid #e7e2dc;
+  box-shadow: 0 22px 54px rgba(33, 28, 22, 0.12);
+}
+
+.login-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #17172f;
+}
+
+.login-logo-mark {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.login-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #070826;
+  margin-bottom: 8px;
+}
+
+.login-copy {
+  font-size: 14px;
+  color: #9a938d;
+  line-height: 1.5;
+}
+
+.login-note {
+  font-size: 11px;
+  color: #b0a9a2;
+  text-align: center;
+}
+
+.login-google-button {
+  gap: 10px;
+  min-width: 240px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid #d7d1ca;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #17172f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.login-google-button:hover:not(:disabled) {
+  background: #f8f7f5;
+}
+
+.login-google-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}

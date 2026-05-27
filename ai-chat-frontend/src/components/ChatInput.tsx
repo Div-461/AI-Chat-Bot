@@ -10,6 +10,7 @@ import {
   MAX_FILE_SIZE_MB,
   MAX_FILES,
 } from "../utils/fileUtils";
+import "../css/ChatInput.css";
 
 interface Props {
   onSend:          (message: string) => void;
@@ -97,18 +98,11 @@ export default function ChatInput({
   return (
     <div>
       <div
-        style={{
-          //background:   "#f8f7f5",
-          border:       `1px solid #00000059`,
-          borderRadius: 4,
-          boxShadow:    canSend ? "0 0 0 3px rgba(23,23,47,0.05)" : "none",
-          transition:   "border-color 0.2s, box-shadow 0.2s",
-          overflow:     "hidden",
-        }}
+        className={clsx("chat-input-shell", canSend && "chat-input-shell-active")}
       >
         {/* Attachment pills — shown above the text area */}
         {attachments.length > 0 && (
-          <div style={{ padding: "10px 12px 0" }}>
+          <div className="chat-input-attachments">
             <AttachmentPreview
               attachments={attachments}
               onRemove={onRemoveAttachment}
@@ -117,7 +111,7 @@ export default function ChatInput({
         )}
 
         {/* Text row */}
-        <div className="flex items-end gap-2 px-4 py-2" style={{ minHeight: 54 }}>
+        <div className="chat-input-row flex items-end gap-2 px-4 py-2">
           {/* Hidden file input */}
           <input
             ref={fileInputRef}
@@ -125,7 +119,7 @@ export default function ChatInput({
             multiple
             accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.csv"
             onChange={handleFileChange}
-            style={{ display: "none" }}
+            className="chat-input-file"
             aria-hidden="true"
           />
 
@@ -136,23 +130,7 @@ export default function ChatInput({
             disabled={!canAttach}
             aria-label="Attach files"
             title="Attach files (PDF, image, text)"
-            className="shrink-0 flex items-center justify-center rounded-lg transition-colors"
-            style={{
-              width:      34,
-              height:     34,
-              marginBottom: 4,
-              //background: canAttach ? "transparent" : "transparent",
-              //color:      canAttach ? "#6f6760" : "#c4bfba",
-              cursor:     canAttach ? "pointer" : "not-allowed",
-              border:     "1px solid transparent",
-            }}
-            onMouseEnter={(e) => {
-              if (canAttach)
-                (e.currentTarget as HTMLButtonElement).style.background = "#ece8e3";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-            }}
+            className="chat-input-attach shrink-0 flex items-center justify-center rounded-lg transition-colors"
           >
             <Paperclip size={18} strokeWidth={2} />
           </button>
@@ -171,19 +149,8 @@ export default function ChatInput({
             }
             rows={1}
             disabled={disabled}
-            style={{
-              flex:        1,
-              resize:      "none",
-              outline:     "none",
-              fontSize:    16,
-              color:       "#17172f",
-              background:  "transparent",
-              maxHeight:   160,
-              lineHeight:  1.5,
-              paddingTop:  10,
-              paddingBottom: 10,
-            }}
             className={clsx(
+              "chat-input-textarea",
               "placeholder:text-[#9c9690]",
               disabled && "opacity-40 cursor-not-allowed"
             )}
@@ -195,27 +162,7 @@ export default function ChatInput({
             onClick={handleSend}
             disabled={!canSend}
             aria-label="Send message"
-            className="shrink-0 flex items-center justify-center rounded-xl transition-all"
-            style={{
-              width:        42,
-              height:       42,
-              marginBottom: 2,
-              background:   "#17172f",
-              color:        "#ffffff",
-              borderRadius:   4,
-              cursor:       canSend ? "pointer" : "not-allowed",
-              opacity:      canSend ? 1 : 0.4,
-              boxShadow:    canSend
-                ? "0 10px 18px rgba(23,23,47,0.2)"
-                : "none",
-            }}
-            onMouseEnter={(e) => {
-              if (canSend)
-                (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.08)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
-            }}
+            className="chat-input-send shrink-0 flex items-center justify-center rounded-xl transition-all"
           >
             <SendHorizontal size={20} strokeWidth={2.1} />
           </button>
@@ -225,21 +172,19 @@ export default function ChatInput({
       {/* File error */}
       {fileError && (
         <p
-          className="text-xs mt-1.5 px-2"
-          style={{ color: "#b42318" }}
+          className="chat-input-error text-xs mt-1.5 px-2"
         >
           {fileError}
         </p>
       )}
 
       {/* Keyboard hints */}
-      <p style={{ textAlign: "center", fontSize: 11, marginTop: 8, marginBottom: 8 }}>
-        <kbd style={{ background: "#f8f7f5", border: "1px solid #e1dbd4", borderRadius: 4, padding: "1px 7px", fontSize: 10, color: "#9b958f" }}>
+      <p className="chat-input-hints">
+        <kbd className="chat-input-key">
           Enter
         </kbd>{" "}
         send
-        <kbd style={{ background: "#f8f7f5", marginLeft:10,
-          border: "1px solid #e1dbd4", borderRadius: 4, padding: "1px 7px", fontSize: 10, color: "#9b958f" }}>
+        <kbd className="chat-input-key chat-input-key-spaced">
           Shift + Enter
         </kbd>{" "}
         new line
